@@ -7,19 +7,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ua.lviv.iot.lab4.view.MyView;
 
 @SpringBootApplication
-public class Application implements CommandLineRunner {
+public class Lab4JdbcWorkWithDataApplication implements CommandLineRunner {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Lab4JdbcWorkWithDataApplication.class, args);
+    }
 
     @Autowired
     private MyView view;
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-
-
     @Override
     public void run(String... args) throws Exception {
-        //TODO
-        //view.show();
+        view.show();
     }
 }
