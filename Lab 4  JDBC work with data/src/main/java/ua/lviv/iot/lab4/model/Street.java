@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class Street {
     private Integer id;
     private String name;
-    private String city;
+    private Integer cityId;
 }

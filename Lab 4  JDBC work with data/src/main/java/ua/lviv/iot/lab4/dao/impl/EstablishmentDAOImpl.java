@@ -61,14 +61,17 @@ public class EstablishmentDAOImpl implements EstablishmentDAO {
 
     @Override
     public int create(Establishment establishment) {
-        return jdbcTemplate.update(CREATE, establishment.getName(), establishment.getTypeOfEstablishment(),
+        return jdbcTemplate.update(CREATE, establishment.getName(), establishment.getTypeOfEstablishmentId(),
                 establishment.getRating(), establishment.getStreetId(), establishment.getInformationAboutOwnerId());
     }
 
     @Override
     public int update(Integer id, Establishment establishment) {
-        return jdbcTemplate.update(UPDATE, establishment.getName(), establishment.getTypeOfEstablishment(),
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, establishment.getName(), establishment.getTypeOfEstablishmentId(),
                 establishment.getRating(), establishment.getStreetId(), establishment.getInformationAboutOwnerId(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

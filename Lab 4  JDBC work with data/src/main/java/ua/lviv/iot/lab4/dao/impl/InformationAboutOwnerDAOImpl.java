@@ -66,8 +66,11 @@ public class InformationAboutOwnerDAOImpl implements InformationAboutOwnerDAO {
 
     @Override
     public int update(Integer id, InformationAboutOwner informationAboutOwner) {
-        return jdbcTemplate.update(UPDATE, informationAboutOwner.getName(), informationAboutOwner.getSurname(),
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, informationAboutOwner.getName(), informationAboutOwner.getSurname(),
                 informationAboutOwner.getAge(), informationAboutOwner.getFortunes(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

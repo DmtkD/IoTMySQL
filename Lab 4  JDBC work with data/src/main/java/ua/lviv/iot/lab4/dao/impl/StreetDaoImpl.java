@@ -19,7 +19,7 @@ public class StreetDaoImpl implements StreetDAO {
     private static final String UPDATE = "UPDATE street SET name=?, city_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM street WHERE id=?";
     private static final String FIND_BY_ID = "SELECT * FROM street WHERE id=?";
-    private static final String FIND_BY_NAME = "SELECT * FROM information_about_owner WHERE name=?";
+    private static final String FIND_BY_NAME = "SELECT * FROM street7 WHERE name=?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -59,12 +59,15 @@ public class StreetDaoImpl implements StreetDAO {
 
     @Override
     public int create(Street street) {
-        return jdbcTemplate.update(CREATE, street.getName(), street.getCity());
+        return jdbcTemplate.update(CREATE, street.getName(), street.getCityId());
     }
 
     @Override
     public int update(Integer id, Street street) {
-        return jdbcTemplate.update(UPDATE, street.getName(), street.getCity(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, street.getName(), street.getCityId(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

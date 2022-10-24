@@ -19,33 +19,33 @@ CREATE TABLE information_about_owner (
     age int NULL,
     fortunes int NULL,
     CONSTRAINT information_about_owner_pk PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE country (
     name varchar(45) NOT NULL,
     CONSTRAINT country_pk PRIMARY KEY (name)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE city (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(45) NULL,
     country_name varchar(45) NOT NULL,
     CONSTRAINT city_pk PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE street (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(45) NULL,
     city_id int NOT NULL,
     CONSTRAINT street_pk PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE credential (
     id int NOT NULL AUTO_INCREMENT,
     login varchar(30) NULL,
     password varchar(45) NULL,
     CONSTRAINT credential_pk PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE user_account (
     nickname varchar(30) NOT NULL,
@@ -53,20 +53,20 @@ CREATE TABLE user_account (
     surname varchar(40) NULL,
     credential_id int NOT NULL,
     CONSTRAINT user_account_pk PRIMARY KEY (nickname)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE review_of_establishment (
     id int NOT NULL AUTO_INCREMENT,
     review varchar(255) NOT NULL,
     user_account_nickname varchar(30) NOT NULL,
     CONSTRAINT review_of_establishment_pk PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE type_of_establishment (
     id int NOT NULL AUTO_INCREMENT,
     type_name varchar(30) NULL,
     CONSTRAINT type_of_establishment_pk PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE establishment (
     id int NOT NULL AUTO_INCREMENT,
@@ -76,7 +76,7 @@ CREATE TABLE establishment (
     street_id int NOT NULL,
     Information_about_owner_id int NOT NULL,
     CONSTRAINT establishment_pk PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE establishment_review_of_establishment (
     review_of_establishment_id int NOT NULL AUTO_INCREMENT,
@@ -102,10 +102,10 @@ ALTER TABLE establishment ADD CONSTRAINT establishment_street FOREIGN KEY establ
 
 ALTER TABLE establishment ADD CONSTRAINT establishment_type_of_establishment FOREIGN KEY establishment_type_of_establishment (type_of_establishment_id)
     REFERENCES type_of_establishment (id);
-    
+
 ALTER TABLE establishment ADD CONSTRAINT establishment_Information_about_owner FOREIGN KEY establishment_Information_about_owner (Information_about_owner_id)
     REFERENCES Information_about_owner (id);
-    
+
 ALTER TABLE review_of_establishment ADD CONSTRAINT review_of_establishment_user_account FOREIGN KEY review_of_establishment_user_account (user_account_nickname)
     REFERENCES user_account (nickname);
 
@@ -164,7 +164,7 @@ INSERT INTO user_account(nickname, name, surname, credential_id) VALUES
 ('krasava', 'Iryna', 'Pistun', 2);
 
 INSERT INTO review_of_establishment(id, review, user_account_nickname) VALUES
-(1, "324324fdsfdskjtrteihtjrejitre", 'mtk'),
+(1, "fF32432432aewe342343232c432423", 'mtk'),
 (2, "324324dsadasdsadsadsadsadsatrteihtjrejitre", 'mtk'),
 (3, "32435i4395430mvc,mfsnajfjjfnsjht bewkj akxdadsa,dsjoprjlre", 'elena'),
 (4, "3kkwipoewqeowqp[wihtfdsfdsfdsxfdxfsdasjrejitre", 'krasava'),

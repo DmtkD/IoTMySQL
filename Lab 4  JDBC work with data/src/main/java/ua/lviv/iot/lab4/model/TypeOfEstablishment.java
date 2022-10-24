@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TypeOfEstablishment {
     private Integer id;
-    private String typeOfEstablishment;
+    private String typeName;
 }

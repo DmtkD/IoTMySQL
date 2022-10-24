@@ -46,12 +46,15 @@ public class TypeOfEstablishmentDAOImpl implements TypeOfEstablishmentDAO {
 
     @Override
     public int create(TypeOfEstablishment typeOfEstablishment) {
-        return jdbcTemplate.update(CREATE, typeOfEstablishment.getTypeOfEstablishment());
+        return jdbcTemplate.update(CREATE, typeOfEstablishment.getTypeName());
     }
 
     @Override
     public int update(Integer id, TypeOfEstablishment typeOfEstablishment) {
-        return jdbcTemplate.update(UPDATE, typeOfEstablishment.getTypeOfEstablishment(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, typeOfEstablishment.getTypeName(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

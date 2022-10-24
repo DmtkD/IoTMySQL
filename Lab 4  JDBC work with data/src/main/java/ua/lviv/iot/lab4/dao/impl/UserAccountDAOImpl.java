@@ -14,11 +14,11 @@ import java.util.Optional;
 @SuppressWarnings("SqlResolve")
 @Service
 public class UserAccountDAOImpl implements UserAccountDAO {
-    private static final String FIND_ALL = "SELECT * FROM user_name";
-    private static final String CREATE = "INSERT user_name(nickname, name, surname, credential_id) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE user_name SET name=?, surname=?, credential_id=? WHERE nickname=?";
-    private static final String DELETE = "DELETE FROM user_name WHERE nickname=?";
-    private static final String FIND_BY_ID = "SELECT * FROM user_name WHERE nickname=?";
+    private static final String FIND_ALL = "SELECT * FROM user_account";
+    private static final String CREATE = "INSERT user_account(nickname, name, surname, credential_id) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE user_account SET name=?, surname=?, credential_id=? WHERE nickname=?";
+    private static final String DELETE = "DELETE FROM user_account WHERE nickname=?";
+    private static final String FIND_BY_ID = "SELECT * FROM user_account WHERE nickname=?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -51,7 +51,10 @@ public class UserAccountDAOImpl implements UserAccountDAO {
 
     @Override
     public int update(String nickname, UserAccount userAccount) {
-        return jdbcTemplate.update(UPDATE, userAccount.getName(), userAccount.getSurname(), userAccount.getCredentialId(), nickname);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, userAccount.getName(), userAccount.getSurname(), userAccount.getCredentialId(), nickname);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

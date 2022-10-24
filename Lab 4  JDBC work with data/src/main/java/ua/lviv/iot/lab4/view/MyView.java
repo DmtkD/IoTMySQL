@@ -37,8 +37,6 @@ public class MyView {
     private final Street nullStreet = new Street(null, null, null);
     private final TypeOfEstablishment nullTypeOfEstablishment = new TypeOfEstablishment(null, null);
     private final UserAccount nullUserAccount = new UserAccount(null, null, null, null);
-    private Optional<City> book;
-    private List<Credential> credentials;
 
     @Autowired
     public MyView(CityController cityController,
@@ -375,13 +373,13 @@ public class MyView {
         Integer typeOfEstablishmentId = Integer.valueOf((input.nextInt()));
 
         System.out.println("Input 'rating': ");
-        Float rating = Float.valueOf((input.nextInt()));
+        float rating = input.nextFloat();
 
         System.out.println("Input 'street_id': ");
-        Integer streetId = Integer.valueOf((input.nextLine()));
+        Integer streetId = Integer.valueOf((input.nextInt()));
 
         System.out.println("Input 'information_about_owner_id': ");
-        Integer informationAboutOwnerId = Integer.valueOf((input.nextLine()));
+        Integer informationAboutOwnerId = Integer.valueOf((input.nextInt()));
 
         Establishment establishment = new Establishment(null, name, typeOfEstablishmentId, rating, streetId, informationAboutOwnerId);
 
@@ -400,13 +398,13 @@ public class MyView {
         Integer typeOfEstablishmentId = Integer.valueOf((input.nextInt()));
 
         System.out.println("Input 'rating': ");
-        Float rating = Float.valueOf((input.nextInt()));
+        float rating = input.nextFloat();
 
         System.out.println("Input 'street_id': ");
-        Integer streetId = Integer.valueOf((input.nextLine()));
+        Integer streetId = Integer.valueOf((input.nextInt()));
 
         System.out.println("Input 'information_about_owner_id': ");
-        Integer informationAboutOwnerId = Integer.valueOf((input.nextLine()));
+        Integer informationAboutOwnerId = Integer.valueOf((input.nextInt()));
 
         Establishment establishment = new Establishment(null, name, typeOfEstablishmentId, rating, streetId, informationAboutOwnerId);
 
@@ -454,7 +452,7 @@ public class MyView {
         System.out.println("Input 'surname': ");
         String surnameOnwer = input.nextLine();
 
-        System.out.println("Input 'rating': ");
+        System.out.println("Input 'age': ");
         Integer rating = Integer.valueOf((input.nextLine()));
 
         System.out.println("Input 'fortunes': ");
@@ -467,7 +465,7 @@ public class MyView {
     }
 
     private void updateInformationAboutOwner() {
-        System.out.println("Input 'name': ");
+        System.out.println("Input 'id': ");
         Integer id = Integer.valueOf(input.nextLine());
 
         System.out.println("Input 'name': ");
@@ -476,7 +474,7 @@ public class MyView {
         System.out.println("Input 'surname': ");
         String surnameOnwer = input.nextLine();
 
-        System.out.println("Input 'rating': ");
+        System.out.println("Input 'age': ");
         Integer rating = Integer.valueOf((input.nextLine()));
 
         System.out.println("Input 'fortunes': ");
@@ -579,10 +577,10 @@ public class MyView {
         System.out.println("Input 'street_name': ");
         String name = input.nextLine();
 
-        System.out.println("Input 'name_city': ");
-        String city = input.nextLine();
+        System.out.println("Input 'city_id': ");
+        Integer cityId = Integer.valueOf(input.nextLine());
 
-        Street street = new Street(null, name, city);
+        Street street = new Street(null, name, cityId);
 
         int count = streetController.create(street);
         System.out.printf("There are created %d rows\n", count);
@@ -595,10 +593,10 @@ public class MyView {
         System.out.println("Input 'street_name': ");
         String name = input.nextLine();
 
-        System.out.println("Input 'name_city': ");
-        String city = input.nextLine();
+        System.out.println("Input 'city_id': ");
+        Integer cityId = Integer.valueOf(input.nextLine());
 
-        Street street = new Street(null, name, city);
+        Street street = new Street(null, name, cityId);
 
         int count = streetController.update(id, street);
         System.out.printf("There are update %d rows\n", count);
@@ -685,6 +683,9 @@ public class MyView {
 
     // region USER_ACCOUNT
     private void createUserAccount() {
+        System.out.println("Input 'nickname': ");
+        String nickname = input.nextLine();
+
         System.out.println("Input 'name': ");
         String name = input.nextLine();
 
@@ -694,7 +695,7 @@ public class MyView {
         System.out.println("Input 'credential_id': ");
         Integer credentialId = Integer.valueOf(input.nextLine());
 
-        UserAccount userAccount = new UserAccount(null, name, surname, credentialId);
+        UserAccount userAccount = new UserAccount(nickname, name, surname, credentialId);
         int count = userAccountController.create(userAccount);
         System.out.printf("There are created %d rows\n", count);
     }

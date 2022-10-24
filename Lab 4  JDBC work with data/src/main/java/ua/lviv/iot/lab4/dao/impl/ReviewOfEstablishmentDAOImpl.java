@@ -46,12 +46,15 @@ public class ReviewOfEstablishmentDAOImpl implements ReviewOfEstablishmentDAO {
 
     @Override
     public int create(ReviewOfEstablishment reviewOfEstablishment) {
-        return jdbcTemplate.update(CREATE, reviewOfEstablishment.getReview(), reviewOfEstablishment.getUser());
+        return jdbcTemplate.update(CREATE, reviewOfEstablishment.getReview(), reviewOfEstablishment.getUserAccountNickname());
     }
 
     @Override
     public int update(Integer id, ReviewOfEstablishment reviewOfEstablishment) {
-        return jdbcTemplate.update(UPDATE, reviewOfEstablishment.getReview(), reviewOfEstablishment.getUser(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, reviewOfEstablishment.getReview(), reviewOfEstablishment.getUserAccountNickname(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

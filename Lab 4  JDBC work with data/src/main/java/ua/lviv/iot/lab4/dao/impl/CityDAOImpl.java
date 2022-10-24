@@ -60,12 +60,15 @@ public class CityDAOImpl implements CityDAO {
 
     @Override
     public int create(City city) {
-        return jdbcTemplate.update(CREATE, city.getName(), city.getCountry());
+        return jdbcTemplate.update(CREATE, city.getName(), city.getCountryName());
     }
 
     @Override
     public int update(Integer id, City city) {
-        return jdbcTemplate.update(UPDATE, city.getName(), city.getCountry(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar =jdbcTemplate.update(UPDATE, city.getName(), city.getCountryName(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

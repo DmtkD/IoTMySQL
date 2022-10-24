@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class ReviewOfEstablishment {
     private Integer id;
     private String review;
-    private String User;
+    private String userAccountNickname;
 }

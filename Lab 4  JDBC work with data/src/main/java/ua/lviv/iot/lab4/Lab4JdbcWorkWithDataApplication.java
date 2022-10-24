@@ -9,12 +9,16 @@ import ua.lviv.iot.lab4.view.MyView;
 @SpringBootApplication
 public class Lab4JdbcWorkWithDataApplication implements CommandLineRunner {
 
+    @Autowired
+    public Lab4JdbcWorkWithDataApplication(MyView view) {
+        this.view = view;
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(Lab4JdbcWorkWithDataApplication.class, args);
     }
 
-    @Autowired
-    private MyView view;
+    private final MyView view;
 
     @Override
     public void run(String... args) throws Exception {

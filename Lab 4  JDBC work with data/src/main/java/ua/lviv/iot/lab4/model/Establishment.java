@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Establishment {
     private Integer id;
     private String name;
-    private Integer typeOfEstablishment;
+    private Integer typeOfEstablishmentId;
     private float rating;
     private Integer streetId;
     private Integer InformationAboutOwnerId;

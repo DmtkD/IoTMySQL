@@ -16,7 +16,7 @@ import java.util.Optional;
 public class CountryDAOImpl implements CountryDAO {
     private static final String FIND_ALL = "SELECT * FROM country";
     private static final String CREATE = "INSERT country(name) VALUES (?)";
-    private static final String UPDATE = "UPDATE country SET name=?";
+    private static final String UPDATE = "UPDATE country SET name=?  WHERE name=?";
     private static final String DELETE = "DELETE FROM country WHERE name=?";
     private static final String FIND_BY_NAME = "SELECT * FROM country WHERE name=?";
 
@@ -44,8 +44,6 @@ public class CountryDAOImpl implements CountryDAO {
         return country;
     }
 
-    // ТОЧНО МАЮТЬ ВЕРТАТИ ІНТ?
-
     @Override
     public int create(Country country) {
         return jdbcTemplate.update(CREATE, country.getName());
@@ -53,7 +51,10 @@ public class CountryDAOImpl implements CountryDAO {
 
     @Override
     public int update(String name, Country country) {
-        return jdbcTemplate.update(UPDATE, country.getName(), name);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, country.getName(), name);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override

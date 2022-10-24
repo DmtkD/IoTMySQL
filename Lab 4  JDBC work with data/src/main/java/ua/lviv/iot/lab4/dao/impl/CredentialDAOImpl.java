@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class CredentialDAOImpl implements CredentialDAO {
     private static final String FIND_ALL = "SELECT * FROM credential";
-    private static final String CREATE = "INSERT credential(login, password) VALUES (?, ?,)";
+    private static final String CREATE = "INSERT credential(login, password) VALUES (?, ?)";
     private static final String UPDATE = "UPDATE credential SET login=?, password=? WHERE id=?";
     private static final String DELETE = "DELETE FROM credential WHERE id=?";
     private static final String FIND_BY_ID = "SELECT * FROM credential WHERE id=?";
@@ -53,7 +53,10 @@ public class CredentialDAOImpl implements CredentialDAO {
 
     @Override
     public int update(Integer id, Credential credential) {
-        return jdbcTemplate.update(UPDATE, credential.getLogin(), credential.getPassword(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        var tempVar = jdbcTemplate.update(UPDATE, credential.getLogin(), credential.getPassword(), id);
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        return tempVar;
     }
 
     @Override
