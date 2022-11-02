@@ -3,6 +3,7 @@ package ua.lviv.iot.lab5.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.lab5.domain.Establishment;
+import ua.lviv.iot.lab5.domain.ReviewOfEstablishment;
 import ua.lviv.iot.lab5.exception.EstablishmentNotFoundException;
 import ua.lviv.iot.lab5.exception.ReviewExistForEstablishmentException;
 import ua.lviv.iot.lab5.repository.EstablishmentRepository;
@@ -59,5 +60,13 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         if(!establishment.getReviews().isEmpty()) throw new ReviewExistForEstablishmentException(id);
         establishmentRepository.delete(establishment);
         establishmentRepository.delete(establishment);
+    }
+
+    @Override
+    @Transactional
+    public List<ReviewOfEstablishment> findReviewByEstablishmentId(Integer id) {
+        Establishment establishment = establishmentRepository.findById(id)
+                .orElseThrow(() -> new EstablishmentNotFoundException(id));
+        return establishment.getReviews().stream().toList();
     }
 }

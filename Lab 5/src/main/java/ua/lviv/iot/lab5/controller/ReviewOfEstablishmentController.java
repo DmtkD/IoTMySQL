@@ -5,23 +5,28 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.lviv.iot.lab5.domain.Establishment;
 import ua.lviv.iot.lab5.domain.ReviewOfEstablishment;
+import ua.lviv.iot.lab5.dto.EstablishmentDto;
 import ua.lviv.iot.lab5.dto.ReviewOfEstablishmentDto;
+import ua.lviv.iot.lab5.dto.assembler.EstablishmentDtoAssembler;
 import ua.lviv.iot.lab5.dto.assembler.ReviewOfEstablishmentDtoAssembler;
 import ua.lviv.iot.lab5.service.ReviewOfEstablishmentService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/review")
 public class ReviewOfEstablishmentController {
     private final ReviewOfEstablishmentService reviewOfEstablishmentService;
     private final ReviewOfEstablishmentDtoAssembler reviewOfEstablishmentDtoAssembler;
+    private final EstablishmentDtoAssembler establishmentDtoAssembler;
 
     @Autowired
-    public ReviewOfEstablishmentController(ReviewOfEstablishmentService reviewOfEstablishmentService, ReviewOfEstablishmentDtoAssembler reviewOfEstablishmentDtoAssembler) {
+    public ReviewOfEstablishmentController(ReviewOfEstablishmentService reviewOfEstablishmentService, ReviewOfEstablishmentDtoAssembler reviewOfEstablishmentDtoAssembler, EstablishmentDtoAssembler establishmentDtoAssembler) {
         this.reviewOfEstablishmentService = reviewOfEstablishmentService;
         this.reviewOfEstablishmentDtoAssembler = reviewOfEstablishmentDtoAssembler;
+        this.establishmentDtoAssembler = establishmentDtoAssembler;
     }
 
     @GetMapping(value = "/{reviewOfEstablishmentId}")
@@ -55,5 +60,12 @@ public class ReviewOfEstablishmentController {
     public ResponseEntity<?> deleteReviewOfEstablishment(@PathVariable("credentialId") Integer reviewOfEstablishmentId) {
         reviewOfEstablishmentService.delete(reviewOfEstablishmentId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{reviewId}/establishment")
+    public ResponseEntity<CollectionModel<EstablishmentDto>> findEstablishmentByReviewId(@PathVariable("reviewId") Integer reviewId) {
+        List<Establishment> establishments = reviewOfEstablishmentService.findEstablishmentByReviewId(reviewId);
+        CollectionModel<EstablishmentDto> reviewOfEstablishmentDtos = establishmentDtoAssembler.toCollectionModel(establishments);
+        return new ResponseEntity<>(reviewOfEstablishmentDtos, HttpStatus.OK);
     }
 }

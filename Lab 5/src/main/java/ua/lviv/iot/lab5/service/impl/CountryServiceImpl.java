@@ -2,6 +2,7 @@ package ua.lviv.iot.lab5.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.lviv.iot.lab5.domain.City;
 import ua.lviv.iot.lab5.domain.Country;
 import ua.lviv.iot.lab5.exception.CityExistForCountryException;
 import ua.lviv.iot.lab5.exception.CountryNotFoundException;
@@ -53,5 +54,13 @@ public class CountryServiceImpl implements CountryService {
                 .orElseThrow(() -> new CountryNotFoundException(name));
         if(!country.getCities().isEmpty()) throw new CityExistForCountryException(name);
         countryRepository.delete(country);
+    }
+
+    @Override
+    @Transactional
+    public List<City> findCityByCountryId(String nameId) {
+        Country country = countryRepository.findById(nameId)
+                .orElseThrow(() -> new CountryNotFoundException(nameId));
+        return country.getCities();
     }
 }

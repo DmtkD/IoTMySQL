@@ -5,8 +5,11 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.lviv.iot.lab5.domain.City;
 import ua.lviv.iot.lab5.domain.Country;
+import ua.lviv.iot.lab5.dto.CityDto;
 import ua.lviv.iot.lab5.dto.CountryDto;
+import ua.lviv.iot.lab5.dto.assembler.CityDtoAssembler;
 import ua.lviv.iot.lab5.dto.assembler.CountryDtoAssembler;
 import ua.lviv.iot.lab5.service.CountryService;
 
@@ -17,11 +20,13 @@ import java.util.List;
 public class CountryController {
     private final CountryService countryService;
     private final CountryDtoAssembler countryDtoAssembler;
+    private final CityDtoAssembler cityDtoAssembler;
 
     @Autowired
-    public CountryController(CountryService countryService, CountryDtoAssembler countryDtoAssembler) {
+    public CountryController(CountryService countryService, CountryDtoAssembler countryDtoAssembler, CityDtoAssembler cityDtoAssembler) {
         this.countryService = countryService;
         this.countryDtoAssembler = countryDtoAssembler;
+        this.cityDtoAssembler = cityDtoAssembler;
     }
 
     @GetMapping(value = "/{countryId}")
@@ -55,5 +60,12 @@ public class CountryController {
     public ResponseEntity<?> deleteCountry(@PathVariable("countryId") String countryId) {
         countryService.delete(countryId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{countryId}/cities")
+    public ResponseEntity<CollectionModel<CityDto>> findCityByCountryId(@PathVariable("countryId") String countryId) {
+        List<City> cities = countryService.findCityByCountryId(countryId);
+        CollectionModel<CityDto> cityDtos = cityDtoAssembler.toCollectionModel(cities);
+        return new ResponseEntity<>(cityDtos, HttpStatus.OK);
     }
 }

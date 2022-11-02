@@ -6,8 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.lab5.domain.Establishment;
+import ua.lviv.iot.lab5.domain.ReviewOfEstablishment;
 import ua.lviv.iot.lab5.dto.EstablishmentDto;
+import ua.lviv.iot.lab5.dto.ReviewOfEstablishmentDto;
 import ua.lviv.iot.lab5.dto.assembler.EstablishmentDtoAssembler;
+import ua.lviv.iot.lab5.dto.assembler.ReviewOfEstablishmentDtoAssembler;
 import ua.lviv.iot.lab5.service.EstablishmentService;
 
 import java.util.List;
@@ -17,11 +20,13 @@ import java.util.List;
 public class EstablishmentController {
     private final EstablishmentService establishmentService;
     private final EstablishmentDtoAssembler establishmentDtoAssembler;
+    private final ReviewOfEstablishmentDtoAssembler reviewOfEstablishmentDtoAssembler;
 
     @Autowired
-    public EstablishmentController(EstablishmentService establishmentService, EstablishmentDtoAssembler establishmentDtoAssembler) {
+    public EstablishmentController(EstablishmentService establishmentService, EstablishmentDtoAssembler establishmentDtoAssembler, ReviewOfEstablishmentDtoAssembler reviewOfEstablishmentDtoAssembler) {
         this.establishmentService = establishmentService;
         this.establishmentDtoAssembler = establishmentDtoAssembler;
+        this.reviewOfEstablishmentDtoAssembler = reviewOfEstablishmentDtoAssembler;
     }
 
     @GetMapping(value = "/{establishmentId}")
@@ -55,5 +60,12 @@ public class EstablishmentController {
     public ResponseEntity<?> deleteEstablishment(@PathVariable("credentialId") Integer establishmentId) {
         establishmentService.delete(establishmentId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{establishmentId}/review")
+    public ResponseEntity<CollectionModel<ReviewOfEstablishmentDto>> findReviewByEstablishmentId(@PathVariable("establishmentId") Integer establishmentId) {
+        List<ReviewOfEstablishment> reviewOfEstablishments = establishmentService.findReviewByEstablishmentId(establishmentId);
+        CollectionModel<ReviewOfEstablishmentDto> reviewOfEstablishmentDtos = reviewOfEstablishmentDtoAssembler.toCollectionModel(reviewOfEstablishments);
+        return new ResponseEntity<>(reviewOfEstablishmentDtos, HttpStatus.OK);
     }
 }
