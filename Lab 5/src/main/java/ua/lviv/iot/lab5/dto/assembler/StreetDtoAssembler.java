@@ -22,7 +22,7 @@ public class StreetDtoAssembler implements RepresentationModelAssembler<Street, 
                 .build();
         Link selfLink = linkTo(methodOn(StreetController.class).getStreet(streetDto.getId())).withSelfRel();
         streetDto.add(selfLink);
-        return null;
+        return streetDto;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class ReviewOfEstablishmentDtoAssembler implements RepresentationModelAss
                 .build();
 
         Link selfLink = linkTo(methodOn(ReviewOfEstablishmentController.class).getReviewOfEstablishment(reviewOfEstablishmentDto.getId())).withSelfRel();
-        return null;
+        return reviewOfEstablishmentDto;
     }
 
     @Override
