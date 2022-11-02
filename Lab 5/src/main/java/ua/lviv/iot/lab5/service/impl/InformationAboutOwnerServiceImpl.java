@@ -3,9 +3,12 @@ package ua.lviv.iot.lab5.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.lab5.domain.InformationAboutOwner;
+import ua.lviv.iot.lab5.exception.EstablishmentExistForInformationAboutOwnerException;
+import ua.lviv.iot.lab5.exception.InformationAboutOwnerNotFoundException;
 import ua.lviv.iot.lab5.repository.InformationAboutOwnerRepository;
 import ua.lviv.iot.lab5.service.InformationAboutOwnerService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,26 +22,41 @@ public class InformationAboutOwnerServiceImpl implements InformationAboutOwnerSe
 
     @Override
     public List<InformationAboutOwner> findAll() {
-        return null;
+        return informationAboutOwnerRepository.findAll();
     }
 
     @Override
-    public InformationAboutOwner findById(Integer integer) {
-        return null;
+    public InformationAboutOwner findById(Integer id) {
+        return informationAboutOwnerRepository.findById(id)
+                .orElseThrow(() -> new InformationAboutOwnerNotFoundException(id));
     }
 
     @Override
-    public InformationAboutOwner create(InformationAboutOwner entity) {
-        return null;
+    @Transactional
+    public InformationAboutOwner create(InformationAboutOwner informationAboutOwner) {
+        informationAboutOwnerRepository.save(informationAboutOwner);
+        return informationAboutOwner;
     }
 
     @Override
-    public void update(Integer integer, InformationAboutOwner entity) {
-
+    @Transactional
+    public void update(Integer id, InformationAboutOwner uInformationAboutOwner) {
+        InformationAboutOwner informationAboutOwner = informationAboutOwnerRepository.findById(id)
+                .orElseThrow(() -> new InformationAboutOwnerNotFoundException(id));
+        informationAboutOwner.setName(uInformationAboutOwner.getName());
+        informationAboutOwner.setSurname(uInformationAboutOwner.getSurname());
+        informationAboutOwner.setAge(uInformationAboutOwner.getAge());
+        informationAboutOwner.setFortunes(uInformationAboutOwner.getFortunes());
+        informationAboutOwnerRepository.save(informationAboutOwner);
     }
 
     @Override
-    public void delete(Integer integer) {
+    @Transactional
+    public void delete(Integer id) {
+        InformationAboutOwner informationAboutOwner = informationAboutOwnerRepository.findById(id)
+                .orElseThrow(() -> new InformationAboutOwnerNotFoundException(id));
+        if (!informationAboutOwner.getEstablishments().isEmpty())
+            throw new EstablishmentExistForInformationAboutOwnerException(id);
 
     }
 }

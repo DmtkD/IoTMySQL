@@ -3,9 +3,12 @@ package ua.lviv.iot.lab5.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.lab5.domain.Street;
+import ua.lviv.iot.lab5.exception.EstablishmentExistForStreetException;
+import ua.lviv.iot.lab5.exception.StreetNotFoundException;
 import ua.lviv.iot.lab5.repository.StreetRepository;
 import ua.lviv.iot.lab5.service.StreetService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,26 +22,38 @@ public class StreetServiceImpl implements StreetService {
 
     @Override
     public List<Street> findAll() {
-        return null;
+        return streetRepository.findAll();
     }
 
     @Override
-    public Street findById(Integer integer) {
-        return null;
+    public Street findById(Integer id) {
+        return streetRepository.findById(id)
+                .orElseThrow(() -> new StreetNotFoundException(id));
     }
 
     @Override
-    public Street create(Street entity) {
-        return null;
+    @Transactional
+    public Street create(Street street) {
+        streetRepository.save(street);
+        return street;
     }
 
     @Override
-    public void update(Integer integer, Street entity) {
-
+    @Transactional
+    public void update(Integer id, Street uStreet) {
+        Street street =  streetRepository.findById(id)
+                .orElseThrow(() -> new StreetNotFoundException(id));
+        street.setCity(uStreet.getCity());
+        street.setName(uStreet.getName());
+        streetRepository.save(street);
     }
 
     @Override
-    public void delete(Integer integer) {
-
+    @Transactional
+    public void delete(Integer id) {
+        Street street =  streetRepository.findById(id)
+                .orElseThrow(() -> new StreetNotFoundException(id));
+        if(!street.getEstablishments().isEmpty()) throw new EstablishmentExistForStreetException(id);
+        streetRepository.delete(street);
     }
 }

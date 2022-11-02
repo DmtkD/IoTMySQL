@@ -20,14 +20,14 @@ public class ReviewOfEstablishmentDtoAssembler implements RepresentationModelAss
                 .userAccount(entity.getUserAccount().getNickname())
                 .build();
 
-        Link selfLink = linkTo(methodOn(ReviewOfEstablishmentController.class).getReview(reviewOfEstablishmentDto.getId())).withSelfRel();
+        Link selfLink = linkTo(methodOn(ReviewOfEstablishmentController.class).getReviewOfEstablishment(reviewOfEstablishmentDto.getId())).withSelfRel();
         return null;
     }
 
     @Override
     public CollectionModel<ReviewOfEstablishmentDto> toCollectionModel(Iterable<? extends ReviewOfEstablishment> entities) {
         CollectionModel<ReviewOfEstablishmentDto> reviewOfEstablishmentDtos = RepresentationModelAssembler.super.toCollectionModel(entities);
-        Link selfLink = linkTo(methodOn(ReviewOfEstablishmentController.class).getAllReviews()).withSelfRel();
+        Link selfLink = linkTo(methodOn(ReviewOfEstablishmentController.class).getAllReviewOfEstablishments()).withSelfRel();
         reviewOfEstablishmentDtos.add(selfLink);
         return reviewOfEstablishmentDtos;
     }

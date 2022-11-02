@@ -20,7 +20,7 @@ public class TypeOfEstablishmentDtoAssembler implements RepresentationModelAssem
                 .typeName(entity.getTypeName())
                 .build();
 
-        Link selfLink = linkTo(methodOn(TypeOfEstablishmentController.class).getType(typeOfEstablishmentDto.getId())).withSelfRel();
+        Link selfLink = linkTo(methodOn(TypeOfEstablishmentController.class).getTypeOfEstablishment(typeOfEstablishmentDto.getId())).withSelfRel();
         typeOfEstablishmentDto.add(selfLink);
         return typeOfEstablishmentDto;
     }
@@ -28,7 +28,7 @@ public class TypeOfEstablishmentDtoAssembler implements RepresentationModelAssem
     @Override
     public CollectionModel<TypeOfEstablishmentDto> toCollectionModel(Iterable<? extends TypeOfEstablishment> entities) {
         CollectionModel<TypeOfEstablishmentDto> typeOfEstablishmentDtos = RepresentationModelAssembler.super.toCollectionModel(entities);
-        Link selfLink = linkTo(methodOn(TypeOfEstablishmentController.class).getAllTypes()).withSelfRel();
+        Link selfLink = linkTo(methodOn(TypeOfEstablishmentController.class).getAllTypeOfEstablishments()).withSelfRel();
         typeOfEstablishmentDtos.add(selfLink);
         return typeOfEstablishmentDtos;
     }

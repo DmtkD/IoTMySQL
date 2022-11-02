@@ -1,18 +1,59 @@
 package ua.lviv.iot.lab5.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.lab5.domain.Establishment;
+import ua.lviv.iot.lab5.dto.EstablishmentDto;
+import ua.lviv.iot.lab5.dto.assembler.EstablishmentDtoAssembler;
+import ua.lviv.iot.lab5.service.EstablishmentService;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/establishment")
 public class EstablishmentController {
-    public Establishment getEstablishment(Integer id) {
-        return null;
+    private final EstablishmentService establishmentService;
+    private final EstablishmentDtoAssembler establishmentDtoAssembler;
+
+    @Autowired
+    public EstablishmentController(EstablishmentService establishmentService, EstablishmentDtoAssembler establishmentDtoAssembler) {
+        this.establishmentService = establishmentService;
+        this.establishmentDtoAssembler = establishmentDtoAssembler;
     }
 
-    public List<Establishment> getAllEstablishments() {
-        return null;
+    @GetMapping(value = "/{establishmentId}")
+    public ResponseEntity<EstablishmentDto> getEstablishment(@PathVariable("establishmentId") Integer establishmentId) {
+        Establishment establishment = establishmentService.findById(establishmentId);
+        EstablishmentDto establishmentDto = establishmentDtoAssembler.toModel(establishment);
+        return new ResponseEntity<>(establishmentDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity<CollectionModel<EstablishmentDto>> getAllEstablishments() {
+        List<Establishment> establishments = establishmentService.findAll();
+        CollectionModel<EstablishmentDto> establishmentDtos = establishmentDtoAssembler.toCollectionModel(establishments);
+        return new ResponseEntity<>(establishmentDtos, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<EstablishmentDto> addEstablishment(@RequestBody Establishment establishment) {
+        Establishment newEstablishment = establishmentService.create(establishment);
+        EstablishmentDto establishmentDto = establishmentDtoAssembler.toModel(newEstablishment);
+        return new ResponseEntity<>(establishmentDto, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/{establishmentId}")
+    public ResponseEntity<?> updateEstablishment(@RequestBody Establishment establishment, @PathVariable("establishmentId") Integer establishmentId) {
+        establishmentService.update(establishmentId, establishment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{credentialId}")
+    public ResponseEntity<?> deleteEstablishment(@PathVariable("credentialId") Integer establishmentId) {
+        establishmentService.delete(establishmentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

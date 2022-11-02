@@ -3,9 +3,12 @@ package ua.lviv.iot.lab5.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.lab5.domain.ReviewOfEstablishment;
+import ua.lviv.iot.lab5.exception.ReviewExistForReviewOfEstablishmentException;
+import ua.lviv.iot.lab5.exception.ReviewOfEstablishmentNotFoundException;
 import ua.lviv.iot.lab5.repository.ReviewOfEstablishmentRepository;
 import ua.lviv.iot.lab5.service.ReviewOfEstablishmentService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,26 +22,39 @@ public class ReviewOfEstablishmentServiceImpl implements ReviewOfEstablishmentSe
 
     @Override
     public List<ReviewOfEstablishment> findAll() {
-        return null;
+        return reviewOfEstablishmentRepository.findAll();
     }
 
     @Override
-    public ReviewOfEstablishment findById(Integer integer) {
-        return null;
+    public ReviewOfEstablishment findById(Integer id) {
+        return reviewOfEstablishmentRepository.findById(id)
+                .orElseThrow(() -> new ReviewOfEstablishmentNotFoundException(id));
     }
 
     @Override
-    public ReviewOfEstablishment create(ReviewOfEstablishment entity) {
-        return null;
+    @Transactional
+    public ReviewOfEstablishment create(ReviewOfEstablishment reviewOfEstablishment) {
+        reviewOfEstablishmentRepository.save(reviewOfEstablishment);
+        return reviewOfEstablishment;
     }
 
     @Override
-    public void update(Integer integer, ReviewOfEstablishment entity) {
-
+    @Transactional
+    public void update(Integer id, ReviewOfEstablishment uReviewOfEstablishment) {
+        ReviewOfEstablishment reviewOfEstablishment = reviewOfEstablishmentRepository.findById(id)
+                .orElseThrow(() -> new ReviewOfEstablishmentNotFoundException(id));
+        reviewOfEstablishment.setReview(uReviewOfEstablishment.getReview());
+        reviewOfEstablishment.setUserAccount(uReviewOfEstablishment.getUserAccount());
+        reviewOfEstablishmentRepository.save(reviewOfEstablishment);
     }
 
     @Override
-    public void delete(Integer integer) {
-
+    @Transactional
+    public void delete(Integer id) {
+        ReviewOfEstablishment reviewOfEstablishment = reviewOfEstablishmentRepository.findById(id)
+                .orElseThrow(() -> new ReviewOfEstablishmentNotFoundException(id));
+        if (!reviewOfEstablishment.getEstablishments().isEmpty())
+            throw new ReviewExistForReviewOfEstablishmentException(id);
+        reviewOfEstablishmentRepository.delete(reviewOfEstablishment);
     }
 }

@@ -27,8 +27,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country findById(String name) {
-        return countryRepository.findById(name)
-                .orElseThrow(() -> new CountryNotFoundException(name));
+        return countryRepository.findById(name).orElseThrow(() -> new CountryNotFoundException(name));
     }
 
     @Override

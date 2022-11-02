@@ -23,7 +23,7 @@ public class InformationAboutOwnerDtoAssembler implements RepresentationModelAss
                 .fortunes(entity.getFortunes())
                 .build();
 
-        Link selfLink = linkTo(methodOn(InformationAboutOwnerController.class).getInformation(informationAboutOwnerDto.getId())).withSelfRel();
+        Link selfLink = linkTo(methodOn(InformationAboutOwnerController.class).getInformationAboutOwner(informationAboutOwnerDto.getId())).withSelfRel();
         informationAboutOwnerDto.add(selfLink);
         return informationAboutOwnerDto;
     }
@@ -31,7 +31,7 @@ public class InformationAboutOwnerDtoAssembler implements RepresentationModelAss
     @Override
     public CollectionModel<InformationAboutOwnerDto> toCollectionModel(Iterable<? extends InformationAboutOwner> entities) {
         CollectionModel<InformationAboutOwnerDto> informationAboutOwnerDtos = RepresentationModelAssembler.super.toCollectionModel(entities);
-        Link selfLink = linkTo(methodOn(InformationAboutOwnerController.class).getAllInformations()).withSelfRel();
+        Link selfLink = linkTo(methodOn(InformationAboutOwnerController.class).getAllInformationAboutOnwers()).withSelfRel();
         informationAboutOwnerDtos.add(selfLink);
         return informationAboutOwnerDtos;
     }
