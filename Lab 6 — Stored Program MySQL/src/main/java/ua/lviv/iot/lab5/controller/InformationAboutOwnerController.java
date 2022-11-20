@@ -56,4 +56,15 @@ public class InformationAboutOwnerController {
         informationAboutOwnerService.delete(informationAboutOwnerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/procedure")
+    public ResponseEntity<InformationAboutOwnerDto> inputDataAboutOwner (@RequestBody InformationAboutOwner informationAboutOwner) {
+        String name = informationAboutOwner.getName();
+        String surname = informationAboutOwner.getSurname();
+        Integer age = informationAboutOwner.getAge();
+        Integer fortunes = informationAboutOwner.getFortunes();
+        InformationAboutOwner newInformationAboutOwner = informationAboutOwnerService.inputDataAboutOwner(name, surname, age, fortunes);
+        InformationAboutOwnerDto informationAboutOwnerDto = informationAboutOwnerDtoAssembler.toModel(newInformationAboutOwner);
+        return new ResponseEntity<>(informationAboutOwnerDto, HttpStatus.CREATED);
+    }
 }

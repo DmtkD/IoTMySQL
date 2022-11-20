@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface EstablishmentService extends GeneralService<Establishment, Integer> {
     List<ReviewOfEstablishment> findReviewByEstablishmentId(Integer id);
+
+    void dymanicProcedure();
 }

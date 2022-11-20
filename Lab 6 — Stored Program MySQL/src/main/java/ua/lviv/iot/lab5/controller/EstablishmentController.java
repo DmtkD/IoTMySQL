@@ -68,4 +68,10 @@ public class EstablishmentController {
         CollectionModel<ReviewOfEstablishmentDto> reviewOfEstablishmentDtos = reviewOfEstablishmentDtoAssembler.toCollectionModel(reviewOfEstablishments);
         return new ResponseEntity<>(reviewOfEstablishmentDtos, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/dymanic_procedure")
+    public ResponseEntity<?> dymanicProcedure() {
+        establishmentService.dymanicProcedure();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

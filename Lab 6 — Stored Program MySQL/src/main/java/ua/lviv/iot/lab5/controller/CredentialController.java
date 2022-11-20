@@ -56,4 +56,10 @@ public class CredentialController {
         credentialService.delete(credentialId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> insert10Credential() {
+        credentialService.insert10Credential();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

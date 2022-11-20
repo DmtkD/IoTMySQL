@@ -56,4 +56,10 @@ public class CredentialServiceImpl implements CredentialService {
         if(!credential.getUserAccounts().isEmpty()) throw new UserAccountExistForCredentialException(id);
         credentialRepository.delete(credential);
     }
+
+    @Override
+    @Transactional
+    public void insert10Credential() {
+        credentialRepository.insert10Credential();
+    }
 }

@@ -22,12 +22,12 @@ CREATE TABLE information_about_owner
     CONSTRAINT information_about_owner_pk PRIMARY KEY (id)
 );
 
-# CREATE TABLE kitchen
-# (
-#     id              int         NOT NULL AUTO_INCREMENT,
-#     name_of_kitchen varchar(45) NOT NULL,
-#     CONSTRAINT id_pk PRIMARY KEY (id)
-# );
+CREATE TABLE kitchen
+(
+    id              int         NOT NULL AUTO_INCREMENT,
+    name_of_kitchen varchar(45) NOT NULL,
+    CONSTRAINT id_pk PRIMARY KEY (id)
+);
 
 CREATE TABLE country
 (

@@ -1,5 +1,7 @@
 package ua.lviv.iot.lab5.domain;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +27,13 @@ public class InformationAboutOwner {
     private Integer fortunes;
     @OneToMany(mappedBy = "informationAboutOwner")
     private List<Establishment> establishments;
+
+    public InformationAboutOwner(String name, String surname, Integer age, Integer fortunes) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.fortunes = fortunes;
+    }
 
     public Integer getId() {
         return id;

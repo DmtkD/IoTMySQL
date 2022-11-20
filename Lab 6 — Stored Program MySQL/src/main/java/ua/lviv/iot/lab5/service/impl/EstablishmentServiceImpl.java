@@ -57,7 +57,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     public void delete(Integer id) {
         Establishment establishment = establishmentRepository.findById(id)
                 .orElseThrow(() -> new EstablishmentNotFoundException(id));
-        if(!establishment.getReviews().isEmpty()) throw new ReviewExistForEstablishmentException(id);
+        if (!establishment.getReviews().isEmpty()) throw new ReviewExistForEstablishmentException(id);
         establishmentRepository.delete(establishment);
         establishmentRepository.delete(establishment);
     }
@@ -68,5 +68,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         Establishment establishment = establishmentRepository.findById(id)
                 .orElseThrow(() -> new EstablishmentNotFoundException(id));
         return establishment.getReviews().stream().toList();
+    }
+
+    @Override
+    @Transactional
+    public void dymanicProcedure() {
+        establishmentRepository.dymanicProcedure();
     }
 }

@@ -59,4 +59,13 @@ public class InformationAboutOwnerServiceImpl implements InformationAboutOwnerSe
             throw new EstablishmentExistForInformationAboutOwnerException(id);
 
     }
+
+
+    @Override
+    @Transactional
+    public InformationAboutOwner inputDataAboutOwner(String name, String surname, Integer age, Integer fortunes) {
+        InformationAboutOwner informationAboutOwner = new InformationAboutOwner(name, surname, age, fortunes);
+        informationAboutOwnerRepository.save(informationAboutOwner);
+        return informationAboutOwner;
+    }
 }
