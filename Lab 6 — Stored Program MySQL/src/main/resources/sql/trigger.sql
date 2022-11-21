@@ -10,11 +10,9 @@ CREATE TRIGGER onwer_name
     ON information_about_owner
     FOR EACH ROW
 BEGIN
-    IF new.name = 'Svitlana' OR 'Petro' OR 'Olha' OR 'Taras' THEN
-        SET new.name = new.name;
-        SET new.surname = new.surname;
-        SET new.age = new.age;
-        SET new.fortunes = new.fortunes;
+    IF new.name NOT REGEXP('Svitlana'|'Petro'|'Olha'|'Taras') THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Not correct name';
     END IF;
 END //
 DELIMITER ;

@@ -11,14 +11,15 @@ DROP TABLE IF EXISTS type_of_establishment;
 DROP TABLE IF EXISTS information_about_owner;
 DROP TABLE IF EXISTS credential;
 DROP TABLE IF EXISTS country;
+DROP TABLE IF EXISTS kitchen;
 
 CREATE TABLE information_about_owner
 (
     id       int         NOT NULL AUTO_INCREMENT,
-    name     varchar(30) NULL,
-    surname  varchar(40) NULL,
-    age      int         NULL,
-    fortunes int         NULL,
+    name     varchar(30) NOT NULL,
+    surname  varchar(40) NOT NULL,
+    age      int         NOT NULL,
+    fortunes int         NOT NULL,
     CONSTRAINT information_about_owner_pk PRIMARY KEY (id)
 );
 
@@ -38,59 +39,59 @@ CREATE TABLE country
 CREATE TABLE city
 (
     id           int         NOT NULL AUTO_INCREMENT,
-    name         varchar(45) NULL,
-    country_name varchar(45) NOT NULL,
+    name         varchar(45) NOT NULL,
+    country_name varchar(45) NULL,
     CONSTRAINT city_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE street
 (
     id      int         NOT NULL AUTO_INCREMENT,
-    name    varchar(45) NULL,
-    city_id int         NOT NULL,
+    name    varchar(45) NOT NULL,
+    city_id int         NULL,
     CONSTRAINT street_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE credential
 (
     id       int         NOT NULL AUTO_INCREMENT,
-    login    varchar(30) NULL,
-    password varchar(45) NULL,
+    login    varchar(30) NOT NULL,
+    password varchar(45) NOT NULL,
     CONSTRAINT credential_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE user_account
 (
     nickname      varchar(30) NOT NULL,
-    name          varchar(30) NULL,
-    surname       varchar(40) NULL,
-    credential_id int         NOT NULL,
+    name          varchar(30) NOT NULL,
+    surname       varchar(40) NOT NULL,
+    credential_id int         NULL,
     CONSTRAINT user_account_pk PRIMARY KEY (nickname)
 );
 
 CREATE TABLE review_of_establishment
 (
     id                    int          NOT NULL AUTO_INCREMENT,
-    review                varchar(255) NOT NULL,
-    user_account_nickname varchar(30)  NOT NULL,
+    review                varchar(255) NULL,
+    user_account_nickname varchar(30)  NULL,
     CONSTRAINT review_of_establishment_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE type_of_establishment
 (
     id        int         NOT NULL AUTO_INCREMENT,
-    type_name varchar(30) NULL,
+    type_name varchar(30) NOT NULL,
     CONSTRAINT type_of_establishment_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE establishment
 (
     id                         int         NOT NULL AUTO_INCREMENT,
-    name                       varchar(30) NULL,
-    type_of_establishment_id   int         NOT NULL,
-    rating                     float(2, 1) NOT NULL,
-    street_id                  int         NOT NULL,
-    Information_about_owner_id int         NOT NULL,
+    name                       varchar(30) NOT NULL,
+    type_of_establishment_id   int         NULL,
+    rating                     float(2, 1) NULL,
+    street_id                  int         NULL,
+    Information_about_owner_id int         NULL,
     CONSTRAINT establishment_pk PRIMARY KEY (id)
 );
 
